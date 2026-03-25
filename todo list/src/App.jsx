@@ -1,13 +1,55 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Navbar from './components/Navbar'
 
 function App() {
+
+  const [todo,settodo]=useState("")
+  const [todos,settodos]=useState([])
+    const handleEdit=()=>{
+
+    }
+
+    const handleDelete=()=>{
+      
+    }
+
+    const handleAdd=()=>{
+      settodos([...todos,{todo,isCompleted: false}])
+      settodo("")
+    }
+
+     const handleChnage=(e)=>{
+      settodo(e.target.value)
+    }
+
   return (
-    <h1 className="text-3xl font-bold text-blue-500">
-      Tailwind is working!
-    </h1>
+    <>
+      <Navbar/>
+      <div className='container mx-auto my-3 rounded-lg bg-blue-300 py-4 px-3 max-w-4xl min-h-[83vh]'>
+
+        <div className="addtodo my-2">
+          <h2 className='text-lg font-bold'>Add a Todo</h2>
+          <input type="text" className='bg-white rounded-sm w-1/2' onChange={handleChnage} value={todo}/>
+          <button onClick={handleAdd} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-3'>Add</button>
+        </div>
+
+          <h2 className='font-bold text-lg'>Your Todos</h2>
+          <div className="todos">
+            {todos.map(item=>{
+
+            <div className="todo flex">
+                <div className="text">
+                  {item.todo}
+                </div>
+                <div className="buttons">
+                  <button onClick={handleEdit} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Edit</button>
+                  <button onClick={handleDelete} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Delete</button>
+                </div>
+            </div>
+          })}
+          </div>  
+      </div>
+    </>
   )
 }
 
