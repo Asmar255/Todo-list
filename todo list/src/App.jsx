@@ -37,8 +37,9 @@ function App() {
           <div className="todos">
             {todos.map(item=>{
 
-            <div className="todo flex">
-                <div className="text">
+            return <div key={todo} className="todo flex justify-between w-1/2 py-1">
+              <input type="checkbox" value={todo.isCompleted} name="" id="" />
+                <div className={item.isCompleted?"line-through":""}>
                   {item.todo}
                 </div>
                 <div className="buttons">
