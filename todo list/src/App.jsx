@@ -11,14 +11,15 @@ function App() {
     }
 
     const handleDelete=(e,id)=>{
-      console.log("")
       let index=todos.findIndex(item=>{
         return item.id===id;
       })
       let newTodos=todos.filter(item=>{
         return item.id!==id
       });
-      settodo(newTodos)
+      settodos(newTodos)
+      
+      console.log("del done")
     }
 
     const handleAdd=()=>{
@@ -37,7 +38,7 @@ function App() {
       })
       let newTodos=[...todos];
       newTodos[index].isCompleted=!newTodos[index].isCompleted
-      settodo(newTodos)
+      settodos(newTodos)
     }
     
 
