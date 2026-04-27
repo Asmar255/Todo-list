@@ -6,11 +6,15 @@ function App() {
 
   const [todo,settodo]=useState("")
   const [todos,settodos]=useState([])
-    const handleEdit=()=>{
-      
-    }
 
-    const handleDelete=(e,id)=>{
+  const saveData=(params) => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }
+  
+
+    const handleEdit=(e,id)=>{
+      let t= todos.filter(i=>i.id===id)
+      settodo(t[0].todo)
       let index=todos.findIndex(item=>{
         return item.id===id;
       })
@@ -18,13 +22,24 @@ function App() {
         return item.id!==id
       });
       settodos(newTodos)
-      
-      console.log("del done")
+      saveData()
+    }
+
+    const handleDelete=(e,id)=>{
+      let index=todos.findIndex(item=>{
+        return item.id===id;
+      }) 
+      let newTodos=todos.filter(item=>{
+        return item.id!==id
+      });
+      settodos(newTodos)
+      saveData()
     }
 
     const handleAdd=()=>{
       settodos([...todos,{id:uuidv4(),todo,isCompleted: false}])
       settodo("")
+      saveData()
     }
 
      const handleChnage=(e)=>{
@@ -39,6 +54,7 @@ function App() {
       let newTodos=[...todos];
       newTodos[index].isCompleted=!newTodos[index].isCompleted
       settodos(newTodos)
+      saveData()
     }
     
 
@@ -50,7 +66,7 @@ function App() {
         <div className="addtodo my-2">
           <h2 className='text-lg font-bold'>Add a Todo</h2>
           <input type="text" className='bg-white rounded-sm w-1/2' onChange={handleChnage} value={todo}/>
-          <button onClick={handleAdd} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-3'>Add</button>
+          <button onClick={handleAdd} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-3'>Save</button>
         </div>
 
           <h2 className='font-bold text-lg'>Your Todos</h2>
@@ -61,12 +77,12 @@ function App() {
             return <div key={item.id} className="todo flex justify-between w-1/2 py-1">
               <div className='flex gap-7'>
               <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
-                <div className={'${item.isCompleted?"line-through":""} text-lg'}>
+                <div className={`${item.isCompleted?"line-through":""} text-lg`}>
                   {item.todo}
                 </div>
               </div>
                 <div className="buttons">
-                  <button onClick={handleEdit} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Edit</button>
+                  <button onClick={(e)=>handleEdit(e,item.id)} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Edit</button>
                   <button onClick={(e)=>{handleDelete(e,item.id)}} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Delete</button>
                 </div>
             </div>
