@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,6 +6,14 @@ function App() {
 
   const [todo,settodo]=useState("")
   const [todos,settodos]=useState([])
+
+  useEffect(()=>{
+    let todoString=localStorage.getItem("todos")
+    if(todoString){
+      let todos=JSON.parse(localStorage.getItem("todos"))
+      settodos(todos)
+    }
+  },[])
 
   const saveData=(params) => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -81,7 +89,7 @@ function App() {
                   {item.todo}
                 </div>
               </div>
-                <div className="buttons">
+                <div className="buttons flex h-full">
                   <button onClick={(e)=>handleEdit(e,item.id)} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Edit</button>
                   <button onClick={(e)=>{handleDelete(e,item.id)}} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Delete</button>
                 </div>
