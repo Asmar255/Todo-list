@@ -55,13 +55,16 @@ function App() {
 
           <h2 className='font-bold text-lg'>Your Todos</h2>
           <div className="todos">
+            {todos.length===0 && <div className='text-xl text-gray-700 my-3'>No Todos to display</div>}
             {todos.map(item=>{
 
             return <div key={item.id} className="todo flex justify-between w-1/2 py-1">
+              <div className='flex gap-7'>
               <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
-                <div className={item.isCompleted?"line-through":""}>
+                <div className={'${item.isCompleted?"line-through":""} text-lg'}>
                   {item.todo}
                 </div>
+              </div>
                 <div className="buttons">
                   <button onClick={handleEdit} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Edit</button>
                   <button onClick={(e)=>{handleDelete(e,item.id)}} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-1'>Delete</button>
