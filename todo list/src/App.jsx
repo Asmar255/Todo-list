@@ -8,6 +8,7 @@ function App() {
   const [todos, settodos] = useState([])
 
   const [isLoaded, setIsLoaded] = useState(false)
+  const [showFinished, setshowFinished] = useState(true)
 
   useEffect(() => {
     let todoString = localStorage.getItem("todos")
@@ -65,8 +66,12 @@ function App() {
     let newTodos = [...todos];
     newTodos[index].isCompleted = !newTodos[index].isCompleted
     settodos(newTodos)
-
   }
+
+    const toggleFinished=(e) => {
+      setshowFinished(!showFinished)
+    }
+    
 
 
   return (
@@ -77,17 +82,19 @@ function App() {
         <div className="addtodo my-2">
           <h2 className='text-lg font-bold'>Add a Todo</h2>
           <input type="text" className='bg-white rounded-sm w-1/2' onChange={handleChnage} value={todo} />
-          <button onClick={handleAdd} className='cursor-pointer bg-blue-400 hover:bg-blue-500 p-3 py-1 rounded-md text-white text-sm font-bold mx-3'>Save</button>
+          <button onClick={handleAdd} disabled={todo.length<=3} className='cursor-pointer bg-blue-400 hover:bg-blue-500 disabled:bg-blue-600 p-3 py-1 rounded-md text-white text-sm font-bold mx-3'>Save</button>
         </div>
+          
+          <input  onChange={toggleFinished} type="checkbox" checked={showFinished} id="" /> Show Finished
 
         <h2 className='font-bold text-lg'>Your Todos</h2>
         <div className="todos">
           {todos.length === 0 && <div className='text-xl text-gray-700 my-3'>No Todos to display</div>}
-          {todos.map(item => {
 
-            return <div key={item.id} className="todo flex justify-between w-1/2 py-1">
+          {todos.map(item => {
+            return (showFinished || !item.isCompleted) && <div key={item.id} className="todo flex justify-between w-1/2 py-1">
               <div className='flex gap-7'>
-                <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
+                <input name={item.id} onChange={handleCheckbox} type="checkbox" checked={item.isCompleted} id="" />
                 <div className={`${item.isCompleted ? "line-through" : ""} text-lg`}>
                   {item.todo}
                 </div>
